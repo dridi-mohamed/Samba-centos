@@ -1,0 +1,54 @@
+# install 
+sudo yum install samba samba-client
+
+
+# enbale service 
+sudo systemctl enable smb.service
+sudo systemctl enable nmb.service
+
+# start bservice 
+sudo systemctl start smb.service
+sudo systemctl start nmb.service
+
+
+# Configuring Firewall
+firewall-cmd --permanent --zone=public --add-service=samba
+firewall-cmd --zone=public --add-service=samba
+
+# vi /etc/samba/smb.conf
+
+[global]
+        workgroup = WORKGROUP
+        netbios name = webserver
+        security = user
+
+        passdb backend = tdbsam
+
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+
+# we add this to shard HTML folder ... can add any folder 
+[html]
+path = /var/www/html
+browsable = yes
+writable =yes
+guest ok = yes
+read only = no
+valid users = anthony root
+writable = yes
+
+# add user "root' to access for this folders 
+smbpasswd -a root
+
+# add password 
+ smbpasswd root
+ 
+ --------------------------------------> USE THOSE ACESS WHEN WINDOWS ASKY YOU 
+ # cahnge permation www/html
+ chmod  777 /var/www/html
+ 
+ # realod  service smb reload
+ 
+ 
